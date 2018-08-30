@@ -1,0 +1,19 @@
+{
+  "name": "calc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/calc.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "tsc -p tsconfig.test.json && nyc --reporter=lcov --reporter=text --reporter=json ava && rm -rf .nyc_output"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ava": "^0.25.0",
+    "nyc": "^13.0.1",
+    "typescript": "^3.0.3"
+  }
+}
