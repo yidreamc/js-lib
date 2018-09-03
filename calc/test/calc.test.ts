@@ -61,3 +61,14 @@ test('表达式', (t) => {
     t.true(calc.calc('(4-3)*2-(1+1.2)/0.2') === -9);
     t.true(calc.calc('((((4-3)*2-1+1.2)+1)+1)/0.2') === 21);
 });
+
+test('非法表达式', (t) => {
+    t.true(calc.calc('4-3+2-1+1.2+a+b').toString() === NaN.toString());
+    t.true(calc.calc('4+2+3+').toString() === NaN.toString());
+    t.true(calc.calc('4++++---1111*///8/+2+3+').toString() === NaN.toString());
+    t.true(calc.calc('4++((((()++---1111*///8/+2+3+').toString() === NaN.toString());
+    t.true(calc.calc('((1+2)/3(').toString() === NaN.toString());
+    t.true(calc.calc('(21(1+2)/3()))').toString() === NaN.toString());
+    t.true(calc.calc('2+a+ba/a+2').toString() === NaN.toString());
+    t.true(calc.calc('2大苏打飒飒撒大苏打').toString() === NaN.toString());
+});

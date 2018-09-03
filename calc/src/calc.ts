@@ -5,7 +5,13 @@ class Calc {
      * @param expression 表达式
      */
     public calc(expression: string): number {
-        return this.cacRPolish(this.toRPolish(expression.replace(/\s+/g, '')));
+        try {
+            const rpolish = this.toRPolish(expression.replace(/\s+/g, ''))
+            const result = this.cacRPolish(rpolish);
+            return result;
+        } catch (e) {
+            return NaN
+        }
     }
 
     /**
@@ -145,7 +151,7 @@ class Calc {
      * @param rpolish 后缀表达式
      */
     private cacRPolish(rpolish: string[]): number {
-        let operReg = /(\+|\-|\*|\/)/
+        let operReg = /(\+|\-|\*|\/|\(|\))/
         let cacStack: number[] = [];
         for (let i = 0; i < rpolish.length; i++) {
             let current = rpolish[i];
@@ -154,27 +160,33 @@ class Calc {
                 cacStack.push(Number(current));
             } else {
                 // 符号
-                let cac1: any = cacStack.pop();
-                let cac2: any = cacStack.pop();
+                const cac1 = cacStack.pop();
+                const cac2 = cacStack.pop();
+                if (cac1 === undefined || cac2 === undefined) {
+                    throw "illegal"
+                }
                 let tmpCacResult: number;
                 switch (current) {
                     case '+':
-                        tmpCacResult = this.add(cac2, cac1)
+                        tmpCacResult = this.add(cac2, cac1);
                         break;
                     case '-':
-                        tmpCacResult = this.sub(cac2, cac1)
+                        tmpCacResult = this.sub(cac2, cac1);
                         break;
                     case '*':
-                        tmpCacResult = this.mul(cac2, cac1)
+                        tmpCacResult = this.mul(cac2, cac1);
                         break;
                     case '/':
-                        tmpCacResult = this.div(cac2, cac1)
+                        tmpCacResult = this.div(cac2, cac1);
                         break;
                     default:
-                        tmpCacResult = NaN;
+                        throw "illegal";
                 }
                 cacStack.push(tmpCacResult)
             }
+        }
+        if (cacStack.length !== 1){
+            throw "illegal";
         }
         return cacStack[0];
     }
@@ -201,10 +213,15 @@ class Calc {
             } else if (current === ')') {
                 // ): 弹出 ( 之后的所有符号
                 while (symbolStack[symbolStack.length - 1] !== '(') {
-                    result.push(symbolStack[symbolStack.length - 1]);
-                    symbolStack.pop();
+                    const symbol = symbolStack.pop();
+                    if (!symbol || symbol === '#') {
+                        throw "illegal"
+                    }
+                    result.push(symbol);
                 }
+                // 丢弃 （
                 symbolStack.pop();
+
             } else if (current === '+' || current === '-' || current === '*' || current === '/') {
                 // + - * / 操作符
 
@@ -216,6 +233,8 @@ class Calc {
 
                 // 优先级大于 压栈顶
                 symbolStack.push(current);
+            } else if (current) {
+                throw "illegal";
             }
         }
 
