@@ -1,7 +1,7 @@
-import test from 'ava'
-import Calc from '../../src/calc/calc'
+import test from 'ava';
+import Calc from '../../src/calc/calc';
 
-let calc = new Calc()
+const calc = new Calc();
 
 // ((((1 + 5) / 4) + 4) * 4 / 5 + (3 + 2)) / 6 + 23 - 54 * (3 + 2) / (2 - 1)
 test('add', (t) => {
@@ -40,7 +40,7 @@ test('sub', (t) => {
 });
 test('mul', (t) => {
     t.true(calc.mul(0.354532, 0.881232) === 0.312424943424);
-    t.true(calc.mul(0.354532, 0) ===0);
+    t.true(calc.mul(0.354532, 0) === 0);
     t.true(calc.mul(0.354532, Infinity) === Infinity);
     t.true(calc.mul(0.354532, -Infinity) === -Infinity);
     t.true(calc.mul(0.00000, 0.0000) === 0);

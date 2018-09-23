@@ -4,27 +4,28 @@ class Calc {
      * 计算表达式
      * @param expression 表达式
      */
-    public calc(expression: string): number {
+    public calc (expression: string): number {
         try {
-            const rpolish = this.toRPolish(expression.replace(/\s+/g, ''))
+            const rpolish = this.toRPolish(expression.replace(/\s+/g, ''));
             const result = this.cacRPolish(rpolish);
             return result;
         } catch (e) {
-            return NaN
+            return NaN;
         }
     }
 
     /**
      * 精确乘法
-     * @param agr1 
-     * @param arg2 
-     * @param others 
+     * @param agr1
+     * @param arg2
+     * @param others
      */
-    public mul(arg1: number, arg2: number, ...others: number[]): number {
+    public mul (arg1: number, arg2: number, ...others: number[]): number {
         if (others.length > 0) {
-            return this.mul(this.mul(arg1, arg2), others[0], ...others.slice(1))
+            return this.mul(this.mul(arg1, arg2), others[0], ...others.slice(1));
         }
-        let str1 = this.toNonExponential(arg1), str2 = this.toNonExponential(arg2);
+        const str1 = this.toNonExponential(arg1);
+        const str2 = this.toNonExponential(arg2);
         let base = 0;
         try {
             base += str1.split('.')[1].length;
@@ -41,17 +42,18 @@ class Calc {
     }
     /**
      * 精确加法
-     * @param arg1 
-     * @param arg2 
-     * @param others 
+     * @param arg1
+     * @param arg2
+     * @param others
      */
-    public add(arg1: number, arg2: number, ...others: number[]): number {
+    public add (arg1: number, arg2: number, ...others: number[]): number {
         if (others.length > 0) {
-            return this.add(this.add(arg1, arg2), others[0], ...others.slice(1))
+            return this.add(this.add(arg1, arg2), others[0], ...others.slice(1));
         }
-        let agr1ToNonExponential: string = this.toNonExponential(arg1);
-        let agr2ToNonExponential: string = this.toNonExponential(arg2);
-        let r1: number, r2: number;
+        const agr1ToNonExponential: string = this.toNonExponential(arg1);
+        const agr2ToNonExponential: string = this.toNonExponential(arg2);
+        let r1: number;
+        let r2: number;
         try {
             r1 = agr1ToNonExponential.split('.')[1].length;
         } catch (e) {
@@ -62,34 +64,35 @@ class Calc {
         } catch (e) {
             r2 = 0;
         }
-        let c = Math.abs(r1 - r2);
-        let m = Math.pow(10, Math.max(r1, r2));
+        const c = Math.abs(r1 - r2);
+        const m = Math.pow(10, Math.max(r1, r2));
         if (c > 0) {
             if (r1 > r2) {
-                arg1 = Number(agr1ToNonExponential.replace(".", ""));
-                arg2 = Number(agr2ToNonExponential.replace(".", "")) * Math.pow(10, c);
+                arg1 = Number(agr1ToNonExponential.replace('.', ''));
+                arg2 = Number(agr2ToNonExponential.replace('.', '')) * Math.pow(10, c);
             } else {
-                arg1 = Number(agr1ToNonExponential.replace(".", "")) * Math.pow(10, c);
-                arg2 = Number(agr2ToNonExponential.replace(".", ""));
+                arg1 = Number(agr1ToNonExponential.replace('.', '')) * Math.pow(10, c);
+                arg2 = Number(agr2ToNonExponential.replace('.', ''));
             }
         } else {
-            arg1 = Number(agr1ToNonExponential.replace(".", ""));
-            arg2 = Number(agr2ToNonExponential.replace(".", ""));
+            arg1 = Number(agr1ToNonExponential.replace('.', ''));
+            arg2 = Number(agr2ToNonExponential.replace('.', ''));
         }
         return (arg1 + arg2) / m;
     }
 
     /**
      * 精确减法
-     * @param arg1 
-     * @param arg2 
-     * @param others 
+     * @param arg1
+     * @param arg2
+     * @param others
      */
-    public sub(arg1: number, arg2: number, ...others: number[]): number {
+    public sub (arg1: number, arg2: number, ...others: number[]): number {
         if (others.length > 0) {
-            return this.sub(this.sub(arg1, arg2), others[0], ...others.slice(1))
+            return this.sub(this.sub(arg1, arg2), others[0], ...others.slice(1));
         }
-        let r1: number, r2: number;
+        let r1: number;
+        let r2: number;
         try {
             r1 = this.toNonExponential(arg1).split('.')[1].length;
         } catch (e) {
@@ -100,20 +103,20 @@ class Calc {
         } catch (e) {
             r2 = 0;
         }
-        let maxr: number = (r1 >= r2) ? r1 : r2;
-        let m: number = Math.pow(10, maxr); //动态控制精度
+        const maxr: number = (r1 >= r2) ? r1 : r2;
+        const m: number = Math.pow(10, maxr); // 动态控制精度
         return Number(((arg1 * m - arg2 * m) / m).toFixed(maxr));
     }
 
-    public div(arg1: number, arg2: number, ...others: number[]): number {
+    public div (arg1: number, arg2: number, ...others: number[]): number {
         if (others.length > 0) {
-            return this.div(this.div(arg1, arg2), others[0], ...others.slice(1))
+            return this.div(this.div(arg1, arg2), others[0], ...others.slice(1));
         }
-        let agr1ToNonExponential: string = this.toNonExponential(arg1);
-        let agr2ToNonExponential: string = this.toNonExponential(arg2);
-
+        const agr1ToNonExponential: string = this.toNonExponential(arg1);
+        const agr2ToNonExponential: string = this.toNonExponential(arg2);
         // 小数位
-        let r1: number, r2: number;
+        let r1: number;
+        let r2: number;
         try {
             r1 = agr1ToNonExponential.split('.')[1].length;
         } catch (e) {
@@ -125,36 +128,34 @@ class Calc {
             r2 = 0;
         }
         // 变成整数
-        let t1: number = Number(agr1ToNonExponential.replace(".", ""));
-        let t2: number = Number(agr2ToNonExponential.replace(".", ""));
+        const t1: number = Number(agr1ToNonExponential.replace('.', ''));
+        const t2: number = Number(agr2ToNonExponential.replace('.', ''));
         return (t1 / t2) * Math.pow(10, r2 - r1);
     }
 
     /**
      * 科学计数法转换成数字字符串
-     * @param num 
+     * @param num
      */
-    private toNonExponential(num: number): string {
+    private toNonExponential (num: number): string {
         try {
-            let m = num.toExponential().match(/\d(?:\.(\d*))?e([+-]\d+)/);
+            const m = num.toExponential().match(/\d(?:\.(\d*))?e([+-]\d+)/);
             // @ts-ignore
             return num.toFixed(Math.max(0, (m[1] || '').length - m[2]));
         } catch (e) {
             // 不是科学计数法
             return num.toString();
         }
-
     }
 
     /**
      * 计算后缀表达式值
      * @param rpolish 后缀表达式
      */
-    private cacRPolish(rpolish: string[]): number {
-        let operReg = /(\+|\-|\*|\/|\(|\))/
-        let cacStack: number[] = [];
-        for (let i = 0; i < rpolish.length; i++) {
-            let current = rpolish[i];
+    private cacRPolish (rpolish: string[]): number {
+        const operReg = /(\+|\-|\*|\/|\(|\))/;
+        const cacStack: number[] = [];
+        for (const current of rpolish) {
             if (!operReg.test(current)) {
                 // 数字
                 cacStack.push(Number(current));
@@ -163,7 +164,7 @@ class Calc {
                 const cac1 = cacStack.pop();
                 const cac2 = cacStack.pop();
                 if (cac1 === undefined || cac2 === undefined) {
-                    throw "illegal"
+                    throw new Error('illegal');
                 }
                 let tmpCacResult: number;
                 switch (current) {
@@ -180,42 +181,40 @@ class Calc {
                         tmpCacResult = this.div(cac2, cac1);
                         break;
                     default:
-                        throw "illegal";
+                        throw new Error('illegal');
                 }
-                cacStack.push(tmpCacResult)
+                cacStack.push(tmpCacResult);
             }
         }
-        if (cacStack.length !== 1){
-            throw "illegal";
+        if (cacStack.length !== 1) {
+            throw new Error('illegal');
         }
         return cacStack[0];
     }
-
 
     /**
      * 把输入串转换为后缀表达式
      * @param input 输入串
      */
-    private toRPolish(input: string): any {
-        let symbolReg = /(\+|\-|\*|\/|\(|\))/
-        let inputArray: string[] = input.split(symbolReg);
-        let result: string[] = [];
-        let symbolStack: string[] = [];
-        symbolStack.push('#')
-        for (let i = 0; i < inputArray.length; i++) {
-            let current: string = inputArray[i]; // 当前遍历的字符
+    private toRPolish (input: string): any {
+        const symbolReg = /(\+|\-|\*|\/|\(|\))/;
+        const inputArray: string[] = input.split(symbolReg);
+        const result: string[] = [];
+        const symbolStack: string[] = [];
+        symbolStack.push('#');
+        for (const current of inputArray) {
             if (current && !symbolReg.test(current)) {
                 // 数字: 直接输出
-                result.push(current)
+                result.push(current);
             } else if (current === '(') {
                 // (: 压如符号栈
-                symbolStack.push(current)
+                symbolStack.push(current);
             } else if (current === ')') {
                 // ): 弹出 ( 之后的所有符号
                 while (symbolStack[symbolStack.length - 1] !== '(') {
                     const symbol = symbolStack.pop();
                     if (!symbol || symbol === '#') {
-                        throw "illegal"
+                        throw new Error('illegal');
                     }
                     result.push(symbol);
                 }
@@ -234,7 +233,7 @@ class Calc {
                 // 优先级大于 压栈顶
                 symbolStack.push(current);
             } else if (current) {
-                throw "illegal";
+                throw new Error('illegal');
             }
         }
 
@@ -246,13 +245,12 @@ class Calc {
         return result;
     }
 
-
     /**
      * 判断当前符号优先级是不是比栈顶优先级小
      * @param curSym current symbol
      * @param topSym stack top symbol
      */
-    private isPriorityLow(curSym: string, topSym: string): boolean {
+    private isPriorityLow (curSym: string, topSym: string): boolean {
         if (curSym === '+' || curSym === '-') {
             if (topSym === '*' || topSym === '/' || topSym === '+' || topSym === '-') {
                 return true;

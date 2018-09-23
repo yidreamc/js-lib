@@ -7,13 +7,20 @@
     "test": "test"
   },
   "scripts": {
-    "test": "tsc -p tsconfig.json && nyc --reporter=lcov --reporter=text --reporter=json ava && rm -rf .nyc_output"
+    "test": "tsc -p tsconfig.json && nyc --reporter=lcov --reporter=text --reporter=json ava && rm -rf .nyc_output && rm -rf coverage",
+    "lint": "tslint --project tsconfig.json --fix && git add ."
   },
+  "pre-commit": [
+    "lint"
+  ],
   "author": "",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "ava": "^0.25.0",
     "nyc": "^13.0.1",
-    "typescript": "^3.0.3"
+    "typescript": "^3.0.3",
+    "pre-commit": "^1.2.2",
+    "tslint": "^5.11.0",
+    "tslint-config-standard": "^7.1.0"
   }
 }

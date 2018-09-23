@@ -4,7 +4,7 @@
 
 ### 用法
 ```ts
-import Calc from 'calc.ts'
+import Calc from 'calc'
 
 let calc = new Calc();
 
