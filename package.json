@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "tsc -p tsconfig.test.json && nyc --reporter=lcov --reporter=text --reporter=json ava && rm -rf .nyc_output"
+    "test": "tsc -p tsconfig.json && nyc --reporter=lcov --reporter=text --reporter=json ava && rm -rf .nyc_output"
   },
   "author": "",
   "license": "MIT",

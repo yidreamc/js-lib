@@ -1,3 +1,4 @@
-**/node_modules/
-**/build-test/
-**/coverage/
+node_modules
+build-test/
+coverage/
+dist/
