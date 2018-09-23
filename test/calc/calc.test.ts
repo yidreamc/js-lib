@@ -1,5 +1,5 @@
 import test from 'ava';
-import Calc from '../../src/calc/calc';
+import Calc from '../../src/calc';
 
 const calc = new Calc();
 
